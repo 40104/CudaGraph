@@ -1,6 +1,7 @@
 
 #include "graph.h"
 
+//Алгоритм Флойда-Уоршелла однопток
 vector<int> Floid_Warshell (vector<int> matrix,l_int_t l)
 {
     for (l_int_t k = 0; k < l; k++)
@@ -16,6 +17,7 @@ vector<int> Floid_Warshell (vector<int> matrix,l_int_t l)
     return matrix;
 }
 
+//Алгоритм Флойда-Уоршелла Многопоток
 vector<int> OpenMP_Floid_Warshell (vector<int> matrix,l_int_t l,int number_of_threads)
 {
     for (l_int_t k = 0; k < l; k++)
@@ -34,6 +36,7 @@ vector<int> OpenMP_Floid_Warshell (vector<int> matrix,l_int_t l,int number_of_th
     return matrix;
 }
 
+//Алгоритм Прима однопток
 l_vec_int_t Prima(vector<int> matrix,l_int_t l)
 {
     vector <bool> visited(l, false);
@@ -68,6 +71,7 @@ l_vec_int_t Prima(vector<int> matrix,l_int_t l)
     return Tree;
 }
 
+//Алгоритм Прима многопоток
 l_vec_int_t OpenMP_Prima(vector<int> matrix,l_int_t l,int Number_of_threads)
 {
     vector <bool> visited(l, false);
@@ -112,6 +116,7 @@ l_vec_int_t OpenMP_Prima(vector<int> matrix,l_int_t l,int Number_of_threads)
     return Tree;
 }
 
+//Алгоритм быстрой сортировки
 void Quick_Sort(int* edges, l_int_t low, l_int_t high, int** nodes)
 {
     l_int_t i = low;
@@ -138,6 +143,7 @@ void Quick_Sort(int* edges, l_int_t low, l_int_t high, int** nodes)
         Quick_Sort(edges, i, high, nodes);
 }
 
+//Алгоритм Краскала однопток
 l_vec_int_t Kruskal(vector<vector<int>>Edges, vector<int>Nodes)
 {
     l_int_t l=Nodes.size();
@@ -157,16 +163,6 @@ l_vec_int_t Kruskal(vector<vector<int>>Edges, vector<int>Nodes)
 
     l_vec_int_t Tree;
     l_int_t i_node, j_node, val;
-/*
-    for (l_int_t i = 0;i < c;i++) {
-        for (l_int_t j = 0;j < c;j++) {
-            if (edges[i]<edges[j]){
-                swap(edges[i],edges[j]);
-                swap(nodes[i],nodes[j]);
-            }
-        }
-    }
-*/
 
     Quick_Sort(edges, 0, c - 1, nodes);
 
@@ -185,7 +181,7 @@ l_vec_int_t Kruskal(vector<vector<int>>Edges, vector<int>Nodes)
     }
     return Tree;
 }
-
+//Алгоритм многопточной быстрой сортировки
 void Quick_Sort_OpenMP(int* edges, l_int_t low, l_int_t high, int** nodes)
 {
     l_int_t i = low;
@@ -217,6 +213,7 @@ void Quick_Sort_OpenMP(int* edges, l_int_t low, l_int_t high, int** nodes)
     }
 }
 
+//Алгоритм Краскала многопоток
 l_vec_int_t OpenMP_Kruskal (vector<vector<int>>Edges, vector<int>Nodes)
 {
     l_int_t l=Nodes.size();
@@ -237,21 +234,6 @@ l_vec_int_t OpenMP_Kruskal (vector<vector<int>>Edges, vector<int>Nodes)
     l_vec_int_t Tree;
     l_int_t i_node, j_node, val;
     omp_set_num_threads(2);
-    /*
-#pragma omp parallel shared(edges,nodes)
-    {
-#pragma omp single nowait
-        {
-            Quick_Sort_OpenMP(edges, 0, c - 1, nodes);
-        }
-    }
-     */
-/*
-#pragma omp single nowait
-    {
-        Quick_Sort_OpenMP(edges, 0, c - 1, nodes);
-    }
-*/
 
 #pragma omp parallel shared(edges)
     {
@@ -278,7 +260,7 @@ l_vec_int_t OpenMP_Kruskal (vector<vector<int>>Edges, vector<int>Nodes)
     }
     return Tree;
 }
-
+ //Функция создания новых вершин
 vector<int> New_Nodes(l_int_t l){
     vector<int>new_nodes;
     int k=0;
@@ -289,6 +271,7 @@ vector<int> New_Nodes(l_int_t l){
     return new_nodes;
 }
 
+//Функция генерации ребер графа
 matrix_edges_t New_Matrix_Edges(l_int_t l,int probability){
     int INF=99999;
     srand(time(NULL));
@@ -314,6 +297,7 @@ matrix_edges_t New_Matrix_Edges(l_int_t l,int probability){
     return make_pair(matrix,edges);
 }
 
+//Функция импорта графа из txt файла
 nodes_matrix_edges_t Import_Graph(string s) {
     char val;
     int INF=99999;
@@ -360,10 +344,12 @@ nodes_matrix_edges_t Import_Graph(string s) {
     }
 }
 
+//Функция выводит колличество доступных потоков центрального процессора(Используется для отладки)
 int Print_NOT() {
     return omp_get_num_procs();
 }
 
+//Алгоритм Дейкстры однопоток
 vector<int> Dijkstra(vector<int> matrix,l_int_t l,int start){
     int INF=99999;
 
@@ -392,7 +378,7 @@ vector<int> Dijkstra(vector<int> matrix,l_int_t l,int start){
     return pos;
 }
 
-
+//Алгоритм Дейкстры многопоток
 vector<int> OpenMP_Dijkstra(vector<int> matrix,l_int_t l,int number_of_threads,int start) {
     int INF = 99999;
     vector<bool> visited(l, false);

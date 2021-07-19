@@ -1,9 +1,11 @@
 # distutils: language=c++
+#Импорт необходимых билиотек
 import Gpu_graph_thust as gp
 from libcpp.vector cimport vector 
 from libcpp.pair cimport pair
 from libcpp.string cimport string
 
+#Вызов С++ Функций
 cdef extern from "graph.h":
     ctypedef long long unsigned int l_int_t
     ctypedef vector[pair[int,pair[l_int_t,l_int_t]]] l_vec_int_t
@@ -23,7 +25,7 @@ cdef extern from "graph.h":
     vector[int] _Dijkstra "Dijkstra" (vector[int] matrix,l_int_t l,int start) 
     vector[int] _OpenMP_Dijkstra "OpenMP_Dijkstra" (vector[int] matrix,l_int_t l,int number_of_threads,int start) ;
                   
- 
+#Обертка С++ функций с помощью Python синтаксиса 
 def Floid_Warshell(a,l):
     cdef vector[int] x=a
     return _Floid_Warshell(x,l)

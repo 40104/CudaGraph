@@ -1,16 +1,18 @@
+#Импорт необходимых билиотек
 import cpu_graph as cg
 import Gpu_graph_thust as gg
 from time import time
 import networkx as nx
 
-
+#Создание итогового класса
 class Graph_algorythms:
-    
+    #Переменные хранения графа
     def __init__(self):
         self.nodes = []
         self.matrix = []
         self.edges = []
-    
+
+    #Декоратор измерения времени
     def measure_time(function):
         def timed(*args, **kwargs):
             begin = time()
@@ -21,7 +23,7 @@ class Graph_algorythms:
             return result 
         return timed
         
-    
+    #Функция генерации графа
     @measure_time  
     def Generate_New_Graph(self,l,p,ptr=False):
         
@@ -37,61 +39,61 @@ class Graph_algorythms:
             print(self.nodes)
             print(self.matrix)
             print(self.edges)
-            
+    #Алгоритм Флойда-Уоршелла CPU однопоток        
     @measure_time        
     def Floid_Warshell(self,ptr=False):
         mid=cg.Floid_Warshell(self.matrix,len(self.nodes))
         if ptr == True:
             print(mid)
-            
+    #Алгоритм Флойда-Уоршелла CPU многопоток        
     @measure_time        
     def OpenMP_Floid_Warshell(self,number_of_treads,ptr=False):
         mid=cg.OpenMP_Floid_Warshell(self.matrix,len(self.nodes),number_of_treads)
         if ptr == True:
             print(mid)
-            
+    #Алгоритм Флойда-Уоршелла GPU        
     @measure_time        
     def GPU_Floid_Warshell(self,ptr=False):
         mid=gg.Gpu_Floid_Warshell(self.matrix)
         if ptr == True:
             print(mid)
-            
+    #Алгоритм Прима СPU однопоток      
     @measure_time        
     def Prima(self,ptr=False):
         mid=cg.Prima(self.matrix,len(self.nodes))
         if ptr == True:
             print(mid)
-            
+    #Алгоритм Прима СPU многопоток        
     @measure_time
     def OpenMP_Prima(self,number_of_treads,ptr=False):
         mid=cg.OpenMP_Prima(self.matrix,len(self.nodes),number_of_treads)
         if ptr == True:
             print(mid)
-            
+    #Алгоритм Краскала СPU однопоток        
     @measure_time        
     def Kruskal(self,ptr=False):
         mid=cg.Kruskal(self.edges,self.nodes)
         if ptr == True:
             print(mid)
-            
+    #Алгоритм Краскала СPU многопоток        
     @measure_time        
     def OpenMP_Kruskal(self,ptr=False):
         mid=cg.OpenMP_Kruskal(self.edges,self.nodes)
         if ptr == True:
             print(mid)
-            
+    #Алгоритм Краскала GPU         
     @measure_time
     def Gpu_Kruskal(self,ptr=False):
         mid=gg.Gpu_Kruskal(self.edges,self.nodes)
         if ptr == True:
             print(mid)
-            
+    #Функция отрисовки графа        
     def Plt_Graph(self):
         G=nx.Graph()
         ge=[[i[1],i[2],i[0]] for i in self.edges]
         G.add_weighted_edges_from(ge)
         nx.draw(G,pos=nx.spectral_layout(G), nodecolor='r',edge_color='b')
-    
+    #Функция импорта графа
     @measure_time   
     def Import_Graph(self,name,ptr=False):
         mid_rezult=cg.Import_Graph(name)
@@ -106,23 +108,22 @@ class Graph_algorythms:
             print(self.nodes)
             print(self.matrix)
             print(self.edges)
-    
+    #Функция получения колличества потоков
     def Number_Of_Treads(self):
         print(cg.Print_NOT())
-    
+    #Алгоритм Дейкстры СPU однопоток
     @measure_time
     def Dijkstra(self,s,ptr=False):
         mid=cg.Dijkstra(self.matrix,len(self.nodes),s)
         if ptr == True:
             print(mid)
-    
+    #Алгоритм Дейкстры СPU многопоток
     @measure_time        
     def OpenMP_Dijkstra(self,s,n,ptr):
         mid=cg.OpenMP_Dijkstra(self.matrix,len(self.nodes),n,s)
         if ptr == True:
             print(mid)
-        
-
+    #Алгоритм Флойда-Уоршелла Python    
     @measure_time         
     def Python_Floid_Warshell(self,ptr):
         matrix=self.matrix
@@ -134,7 +135,7 @@ class Graph_algorythms:
                     matrix[i*ln+j]=matrix[i*ln+j] if matrix[i*ln+j]<=t else t
         if ptr == True:
             print(matrix)
-            
+    #Алгоритм Прима Python        
     @measure_time        
     def Python_Prima(self,ptr):
         l=len(self.nodes)
@@ -160,7 +161,7 @@ class Graph_algorythms:
         if ptr == True:
             print(tree)
             
-            
+    #Алгоритм Краскала Python        
     @measure_time
     def Python_Kraskal(self,ptr):
         l=len(self.nodes)
@@ -197,7 +198,7 @@ class Graph_algorythms:
                         Nodes[j]=new
         if ptr == True: 
             print(tree)
-            
+    #Алгоритм Дейкстры Python        
     @measure_time
     def Python_Dijkstra(self,start,ptr):
         l=len(self.nodes)

@@ -1,6 +1,8 @@
+#Импорт необходимых билиотек
 import ThrustRTC as trtc
 import math
 
+#Алгоритм Флойда-Уоршелла на графическом процессоре
 def Gpu_Floid_Warshell(matrix):
     kernel_Floid_Warshell = trtc.Kernel(['arr', 'k','l'],
 	'''
@@ -27,7 +29,7 @@ def Gpu_Floid_Warshell(matrix):
 
     return(dvec_in.to_host())
  
-   
+#Алгоритм Краскала на графическом процессоре   
 def Gpu_Kruskal(edges,nodes):
     values=[]
     key_1=[]
